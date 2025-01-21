@@ -25,36 +25,36 @@ function HomepageHeader() {
     <header className="header"> {/* Apply custom class here */}
       <div className="header-container">
         <div className="left-section">
-        <div className="title-container">
-          <h1 className="title">
-          Use<span className="robo-gradient"> lever </span>to setup your next simulation
-          </h1>
-        </div>
+          <div className="title-container">
+            <h1 className="title">
+              Use<span className="robo-gradient"> lever </span>to setup your next simulation
+            </h1>
+          </div>
           <p className="subtitle text-lightModeBlack dark:text-white">
-            Rapid URDF creation to reduce setup costs and focus on what matters 
-            <br/><span className="robo-gradient big-words"> <strong>innovation</strong> </span>
-            <br/><span className="robo-gradient big-words"> <strong>research</strong> </span>
-            <br/><span className="robo-gradient big-words"> <strong>development</strong> </span>
+            Rapid URDF creation to reduce setup costs and focus on what matters
+            <br /><span className="robo-gradient big-words"> <strong>innovation</strong> </span>
+            <br /><span className="robo-gradient big-words"> <strong>research</strong> </span>
+            <br /><span className="robo-gradient big-words"> <strong>development</strong> </span>
           </p>
 
-        <div className="button-container">
-          <div className="left-container">
-            <a href="/#quote">
-              <button className="base-button left-button">Get Quote</button>
-            </a>
+          <div className="button-container">
+            <div className="left-container">
+              <a href="/#quote">
+                <button className="base-button left-button">Get Quote</button>
+              </a>
+            </div>
+            <div className="right-container">
+              <a href="/#services">
+                <button className="base-button right-button">Explore Services</button>
+              </a>
+            </div>
           </div>
-          <div className="right-container">
-          <a href="/#services">
-            <button className="base-button right-button">Explore Services</button>
-          </a>
-          </div>
-        </div>
         </div>
         <div className="right-section">
           <img
             src="img/robot_transparent.png"
             alt="App Preview"
-            className="image-transform" 
+            className="image-transform"
           />
         </div>
       </div>
@@ -176,7 +176,7 @@ const SurveySection = () => {
       <form className={SurveyStyles.form} onSubmit={handleSubmit}>
         <div className={SurveyStyles.header}>
           <h2>Request a Simulation Setup</h2>
-          <p className={SurveyStyles.subtitle}>See the time your R&D could save with <br/><span className="robo-gradient" style={}> lever </span>
+          <p className={SurveyStyles.subtitle}>See the time your R&D could save with <br /><span className="robo-gradient"> lever </span>
           </p>
         </div>
         <div className={SurveyStyles.inputGroup}>
@@ -225,16 +225,16 @@ const RobotDefinitions = () => {
       </div>
       <div className={Robotstyles.listContainer}>
         <ul className={Robotstyles.list}>
-            <li><FontAwesomeIcon icon={faCar} className={Robotstyles.icon} /> Mobile</li>
-            <li><FontAwesomeIcon icon={faRobot} className={Robotstyles.icon} /> Humanoids</li>
-            <li><FontAwesomeIcon icon={faDog} className={Robotstyles.icon} /> Quadrupeds</li>
-            <li><FontAwesomeIcon icon={faCog} className={Robotstyles.icon} /> Articulated</li>
-          </ul>
-          <ul className={Robotstyles.list}>
-            <li><FontAwesomeIcon icon={faRocket} className={Robotstyles.icon} /> Multi-Rotor Drone</li>
-            <li><FontAwesomeIcon icon={faPlane} className={Robotstyles.icon} /> Fixed Wing Drone</li>
-            <li><FontAwesomeIcon icon={faSpider} className={Robotstyles.icon} /> Multi-Legged</li>
-          </ul>
+          <li><FontAwesomeIcon icon={faCar} className={Robotstyles.icon} /> Mobile</li>
+          <li><FontAwesomeIcon icon={faRobot} className={Robotstyles.icon} /> Humanoids</li>
+          <li><FontAwesomeIcon icon={faDog} className={Robotstyles.icon} /> Quadrupeds</li>
+          <li><FontAwesomeIcon icon={faCog} className={Robotstyles.icon} /> Articulated</li>
+        </ul>
+        <ul className={Robotstyles.list}>
+          <li><FontAwesomeIcon icon={faRocket} className={Robotstyles.icon} /> Multi-Rotor Drone</li>
+          <li><FontAwesomeIcon icon={faPlane} className={Robotstyles.icon} /> Fixed Wing Drone</li>
+          <li><FontAwesomeIcon icon={faSpider} className={Robotstyles.icon} /> Multi-Legged</li>
+        </ul>
       </div>
     </div>
   );
@@ -258,7 +258,7 @@ const ServicesSection = () => {
           </ul>
         </div>
       </div>
-      
+
       {/* Second Section */}
       <div className={ServicesStyles.bottomContainer}>
         <div className={ServicesStyles.bottomSection}>
@@ -274,7 +274,7 @@ const ServicesSection = () => {
             </ul>
           </div>
         </div>
-        
+
         <div className={ServicesStyles.bottomSection}>
           <div className={ServicesStyles.content}>
             <h2 className={ServicesStyles.header}>The <span className="robo-gradient">ROS2 Architecture</span> We Deliver</h2>
@@ -290,7 +290,7 @@ const ServicesSection = () => {
         </div>
       </div>
     </section>
-  );  
+  );
 };
 
 function ApplicationAdvertise() {
@@ -310,14 +310,14 @@ function ApplicationAdvertise() {
       </div>
       {/* Right Section: Image with rounded container */}
       <div className={styles.imageSection}>
-      <Link to="https://marksoulier.github.io/URDF_creator/">
-        <div className={styles.imageContainer}>
-          <img
-            src="img/tool.png" // Replace with your image path
-            alt="Robot Preview"
-            className={styles.image}
-          />
-        </div>
+        <Link to="https://marksoulier.github.io/URDF_creator/">
+          <div className={styles.imageContainer}>
+            <img
+              src="img/tool.png" // Replace with your image path
+              alt="Robot Preview"
+              className={styles.image}
+            />
+          </div>
         </Link>
       </div>
     </div>
