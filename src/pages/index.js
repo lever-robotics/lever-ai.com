@@ -7,6 +7,7 @@ import BetaBanner from './betaBanner';
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCar, faRobot, faDog, faCog, faRocket, faPlane, faSpider, faFlask } from '@fortawesome/free-solid-svg-icons';
+import emailjs from '@emailjs/browser';
 
 import Heading from '@theme/Heading';
 // import styles from './index.module.css';
@@ -18,6 +19,9 @@ import Robotstyles from './RobotDefinitions.module.css';
 import ServicesStyles from './ServicesStyles.module.css'; // Corrected import for styles
 import Insstyles from './InspirationalQuote.module.css'; // Import the CSS module
 import './header.css'; // Link to your custom CSS
+import './Spinner.css'; // Import the CSS file for spinner styling
+import dis_styles from './display_sections.module.css';
+
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -27,20 +31,21 @@ function HomepageHeader() {
         <div className="left-section">
           <div className="title-container">
             <h1 className="title">
-              Use<span className="robo-gradient"> lever </span>to setup your next simulation
+              AI powered <span className="robo-gradient"> ERP </span> systems for better business visibility and intelligence
+              {/* Use<span className="robo-gradient"> lever </span>to setup your next simulation */}
             </h1>
           </div>
           <p className="subtitle text-lightModeBlack dark:text-white">
-            Rapid URDF creation to reduce setup costs and focus on what matters
-            <br /><span className="robo-gradient big-words"> <strong>innovation</strong> </span>
-            <br /><span className="robo-gradient big-words"> <strong>research</strong> </span>
-            <br /><span className="robo-gradient big-words"> <strong>development</strong> </span>
+            Create your own flexible and custom system built on data understood by AI
+            <br /><span className="robo-gradient big-words"> <strong>no code</strong> </span>
+            <br /><span className="robo-gradient big-words"> <strong>flexible</strong> </span>
+            <br /><span className="robo-gradient big-words"> <strong>simple</strong> </span>
           </p>
 
           <div className="button-container">
             <div className="left-container">
               <a href="/#quote">
-                <button className="base-button left-button">Get Quote</button>
+                <button className="base-button left-button">Schedule a Demo</button>
               </a>
             </div>
             <div className="right-container">
@@ -52,7 +57,7 @@ function HomepageHeader() {
         </div>
         <div className="right-section">
           <img
-            src="img/robot_transparent.png"
+            src="img/front_img.png"
             alt="App Preview"
             className="image-transform"
           />
@@ -112,21 +117,20 @@ function CompanyCarousel() {
 }
 
 const stepsWithLever = [
-  { text: 'Describe your robot system (sensors, joint control, and environment).', emoji: '🤖' },
-  { text: 'Receive a fully configured simulation with controllable joints, live sensor feeds, and a preconfigured ROS2 network.', emoji: '⚙️' }
+  { text: 'Define their own ERP system and ontology using AI tools', emoji: '🤖' },
+  { text: 'Deploy the system and get AI insights into system improvements', emoji: '⚙️' },
+  { text: 'Easily alter the system when business requirements change', emoji: '🔄' }
 ];
 
 const stepsWithoutLever = [
-  { text: 'Spend hours manually designing a URDF, trying to represent joints, sensors, and links accurately.', emoji: '😓' },
-  { text: 'Face URDF formatting issues, simulation errors, or compatibility problems with platforms like Gazebo.', emoji: '🔧' },
-  { text: 'Manually configure the simulation environment, setting up physics properties, collision, and visual aspects.', emoji: '🛠️' },
-  { text: 'Struggle with debugging problems due to missing or unclear documentation.', emoji: '📖' },
-  { text: 'Manually write ROS2 nodes to handle control and transformation trees, often leading to errors.', emoji: '🤯' },
-  { text: 'After painstakingly making your model highly accurate, realize it’s too computationally intensive for real-time physics engines.', emoji: '🖥️' },
-  { text: 'Spend additional time tweaking the model to make it more computationally friendly, while still trying to maintain accurate representation.', emoji: '⚖️' },
-  { text: 'Manually set up sensor inputs and ensure message flow across the ROS network is correct.', emoji: '💻' },
-  { text: 'Test the simulation, encountering multiple setup issues, often requiring manual tweaks and reruns.', emoji: '😵' },
-  { text: 'Realize the need for further adjustments and reconfigurations to make the system functional and scalable.', emoji: '⚠️' }
+  { text: 'Purchase an expensive system', emoji: '💰' },
+  { text: 'Work with clunky tooling', emoji: '🔧' },
+  { text: 'Struggle to gather accurate data from the system', emoji: '📉' },
+  { text: 'Request changes to the ERP system, taking 5 months to implement', emoji: '⏳' },
+  { text: 'Spend significant resources on consultants to patch issues', emoji: '🛠️' },
+  { text: 'Endure disruptions while waiting for the system update', emoji: '🚧' },
+  { text: 'Discover the functionality doesn’t meet specific requirements', emoji: '❌' },
+  { text: 'Face delays in adapting to new business needs', emoji: '🐢' }
 ];
 
 function ComparisonComponent() {
@@ -158,171 +162,172 @@ function ComparisonComponent() {
 };
 
 
+
+const Spinner = () => {
+  return (
+    <div className="spinner"></div>
+  );
+};
+
 const SurveySection = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [description, setDescription] = useState('');
+  const [companyName, setcompName] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false); // State to track loading
+  const [success, setSuccess] = useState(false); // State to track success
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log('Name:', name);
-    console.log('Email:', email);
-    console.log('Description:', description);
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+
+    setError('');
+    setLoading(true); // Start loading after form submission
+
+    // Send email to yourself (internal notification)
+    emailjs
+      .sendForm(
+        'service_jj1wsqp', // Replace with your EmailJS service ID
+        'template_0qdtk3f', // Replace with your internal notification template ID
+        e.target,
+        'TrAW6-R-IGHMVtP7Z' // Replace with your EmailJS user ID
+      )
+      .then(
+        (result) => {
+          console.log('Email sent:', result.text);
+          setLoading(false); // Stop loading
+          setSuccess(true); // Set success to true
+        },
+        (error) => {
+          console.error('Failed to send email:', error.text);
+          setLoading(false); // Stop loading
+          alert('There was an error submitting the form.');
+        }
+      );
   };
 
   return (
-    <div className={SurveyStyles.container} id="quote">
-      <form className={SurveyStyles.form} onSubmit={handleSubmit}>
-        <div className={SurveyStyles.header}>
-          <h2>Request a Simulation Setup</h2>
-          <p className={SurveyStyles.subtitle}>See the time your R&D could save with <br /><span className="robo-gradient"> lever </span>
-          </p>
+    <div className={SurveyStyles.container}>
+      {loading ? (
+        <Spinner />
+      ) : success ? (
+        <div className={SurveyStyles.successMessage}>
+          <p>Your request has been submitted successfully. We will get back to you soon.</p>
         </div>
-        <div className={SurveyStyles.inputGroup}>
-          <label htmlFor="name">Name</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Enter your name"
-            required
-          />
-        </div>
-        <div className={SurveyStyles.inputGroup}>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
-            required
-          />
-        </div>
-        <div className={SurveyStyles.inputGroup}>
-          <label htmlFor="description">Project Description</label>
-          <textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Describe your project"
-            required
-          ></textarea>
-        </div>
-        <button type="submit" className={SurveyStyles.submitButton}>Request Quote</button>
-      </form>
-    </div>
-  );
-};
-
-const RobotDefinitions = () => {
-  return (
-    <div className={Robotstyles.container} id="about">
-      <div className={Robotstyles.headerContainer}>
-        <h2 className={Robotstyles.header}>What Type of Robot Custom Definitions We Can Make for Simulation</h2>
-      </div>
-      <div className={Robotstyles.listContainer}>
-        <ul className={Robotstyles.list}>
-          <li><FontAwesomeIcon icon={faCar} className={Robotstyles.icon} /> Mobile</li>
-          <li><FontAwesomeIcon icon={faRobot} className={Robotstyles.icon} /> Humanoids</li>
-          <li><FontAwesomeIcon icon={faDog} className={Robotstyles.icon} /> Quadrupeds</li>
-          <li><FontAwesomeIcon icon={faCog} className={Robotstyles.icon} /> Articulated</li>
-        </ul>
-        <ul className={Robotstyles.list}>
-          <li><FontAwesomeIcon icon={faRocket} className={Robotstyles.icon} /> Multi-Rotor Drone</li>
-          <li><FontAwesomeIcon icon={faPlane} className={Robotstyles.icon} /> Fixed Wing Drone</li>
-          <li><FontAwesomeIcon icon={faSpider} className={Robotstyles.icon} /> Multi-Legged</li>
-        </ul>
-      </div>
-    </div>
-  );
-};
-
-const ServicesSection = () => {
-  return (
-    <section className={ServicesStyles.section}>
-      {/* First Section */}
-      <div className={ServicesStyles.topSection}>
-        <div className={ServicesStyles.content}>
-          <h2 className={ServicesStyles.header}>You Give Us</h2>
-          <div className={ServicesStyles.imageContainer}>
-            <img src="/img/solidworks_env.jpg" alt="What You Give Us" className={ServicesStyles.image} />
+      ) : (
+        <form className={SurveyStyles.form} onSubmit={handleSubmit}>
+          <div className={SurveyStyles.header}>
+            <h2>Request a Demo</h2>
+            <p className={SurveyStyles.subtitle}>Develop your new age ERP system with <br /><span className="robo-gradient"> lever </span>
+            </p>
           </div>
-          <ul className={ServicesStyles.bulletedList}>
-            <li>CAD model of the robot or schematic/datasheet</li>
-            <li>Sensors and sensor schematics</li>
-            <li>Specified environment and simulator</li>
-            <li>Any configuration needs for the ROS2 architecture</li>
-          </ul>
-        </div>
-      </div>
-
-      {/* Second Section */}
-      <div className={ServicesStyles.bottomContainer}>
-        <div className={ServicesStyles.bottomSection}>
-          <div className={ServicesStyles.content}>
-            <h2 className={ServicesStyles.header}>The <span className="robo-gradient">Simulation</span> We Deliver</h2>
-            <div className={ServicesStyles.imageContainer}>
-              <img src="/img/issac_simulation.png" alt="The Simulation We Deliver to You" className={ServicesStyles.image} />
-            </div>
-            <ul className={ServicesStyles.bulletedList}>
-              <li>A fully set-up simulation environment with your robot model</li>
-              <li>Specified controls and sensor integration</li>
-              <li>Launch files to start simulation and your physical robots base transformation tree</li>
-            </ul>
-          </div>
-        </div>
-
-        <div className={ServicesStyles.bottomSection}>
-          <div className={ServicesStyles.content}>
-            <h2 className={ServicesStyles.header}>The <span className="robo-gradient">ROS2 Architecture</span> We Deliver</h2>
-            <div className={ServicesStyles.imageContainer}>
-              <img src="/img/ros2_graph.png" alt="The ROS2 Architecture We Deliver to You" className={ServicesStyles.image} />
-            </div>
-            <ul className={ServicesStyles.bulletedList}>
-              <li>Detailed documentation and installation instructions for ROS2 packages</li>
-              <li>Node configuration based on specifications</li>
-              <li>Template package to jump start development</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-function ApplicationAdvertise() {
-  return (
-    <div className={styles.advertiseContainer}>
-      {/* Left Section: Title, Subtitle, and Buttons */}
-      <div className={styles.textSection}>
-        <h1 className={styles.title}>URDF Creator</h1>
-        <p className={styles.subtitle}>
-          Build robot models effortlessly and free with URDF Creator.
-        </p>
-        <div className={styles.buttons}>
-          <Link className="button button--lg" to="https://marksoulier.github.io/URDF_creator/">
-            Go to App
-          </Link>
-        </div>
-      </div>
-      {/* Right Section: Image with rounded container */}
-      <div className={styles.imageSection}>
-        <Link to="https://marksoulier.github.io/URDF_creator/">
-          <div className={styles.imageContainer}>
-            <img
-              src="img/tool.png" // Replace with your image path
-              alt="Robot Preview"
-              className={styles.image}
+          <div className={SurveyStyles.inputGroup}>
+            <label htmlFor="name">Name</label>
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="name"
+              required
             />
           </div>
-        </Link>
+          <div className={SurveyStyles.inputGroup}>
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="name@company.com"
+              required
+            />
+          </div>
+          <div className={SurveyStyles.inputGroup}>
+            <label htmlFor="company">Company Name</label>
+            <input
+              type="text"
+              id="company"
+              value={companyName}
+              onChange={(e) => setcompName(e.target.value)}
+              placeholder="company"
+              required
+            />
+          </div>
+          {error && <p className={SurveyStyles.errorMessage}>{error}</p>}
+          <button type="submit" className={SurveyStyles.submitButton}>Request Demo</button>
+        </form>
+      )}
+    </div>
+  );
+};
+
+const CRMAd = () => {
+  return (
+    <div className={dis_styles.leftSection}>
+      <div className={dis_styles.text}>
+        <h1>Customize your interaction with customers</h1>
+        <p>
+          Care for each customer in a unique way, enable all employees to have personal relationships with each customer
+        </p>
+      </div>
+      <div>
+        <img
+          className={dis_styles.image}
+          src="img/CRM.png"
+          alt="Placeholder"
+        />
       </div>
     </div>
   );
-}
+};
+
+const LogisticsAd = () => {
+  return (
+    <div className={dis_styles.rightSection}>
+      <div>
+        <img
+          className={dis_styles.image}
+          src="img/Logistics.png"
+          alt="Placeholder"
+        />
+      </div>
+      <div className={dis_styles.text}>
+        <h1>Plan and manage on demand logistics decisions</h1>
+        <p>
+          Use AI to predict and optimize logistics decisions, and manage the supply chain efficiently
+        </p>
+      </div>
+    </div>
+  );
+};
+
+const SalesAd = () => {
+  return (
+    <div className={dis_styles.leftSection}>
+      <div className={dis_styles.text}>
+        <h1>Take control of your sales funnel</h1>
+        <p>
+          Optimize which clients to spend effort on and gain better forecasting for future sales.
+        </p>
+      </div>
+      <div>
+        <img
+          className={dis_styles.image}
+          src="img/salesfunnel.png"
+          alt="Placeholder"
+        />
+      </div>
+    </div>
+  );
+};
 
 // "          <Link className="button button--lg" to="/docs/quick-start">
 //             Quick Start
@@ -337,15 +342,15 @@ export default function Home() {
       description="URDF Creator">
       <HomepageHeader />
       <hr className={styles.pageBreakLine} />
-      <InspirationalQuote quote="“don't reinvent the wheel, just realign it” - D'Angelo" />
-      <hr className={styles.pageBreakLine} />
-      <CompanyCarousel />
+      <InspirationalQuote quote="“The future of business lies in knowledge graphs, as they provide the crucial ability to connect and understand complex relationships within data, enabling businesses to make informed decisions and gain a competitive edge through deeper insights.”" />
       <hr className={styles.pageBreakLine} />
       <ComparisonComponent />
       <hr className={styles.pageBreakLine} />
-      <RobotDefinitions />
+      <CRMAd />
       <hr className={styles.pageBreakLine} />
-      <ServicesSection />
+      <LogisticsAd />
+      <hr className={styles.pageBreakLine} />
+      <SalesAd />
       <hr className={styles.pageBreakLine} />
       <SurveySection />
       <div id="contact"></div>

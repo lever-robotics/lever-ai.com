@@ -103,17 +103,17 @@ const config = {
     //   },
     // ],
     'docusaurus-plugin-sass',
-      async function tailwind(context, options) {
-        return {
-          name: 'docusaurus-tailwindcss',
-          configurePostCss(postcssOptions) {
-            // Appends TailwindCSS and AutoPrefixer.
-            postcssOptions.plugins.push(require('tailwindcss'))
-            postcssOptions.plugins.push(require('autoprefixer'))
-            return postcssOptions
-          },
-        }
-      },
+    async function tailwind(context, options) {
+      return {
+        name: 'docusaurus-tailwindcss',
+        configurePostCss(postcssOptions) {
+          // Appends TailwindCSS and AutoPrefixer.
+          postcssOptions.plugins.push(require('tailwindcss'))
+          postcssOptions.plugins.push(require('autoprefixer'))
+          return postcssOptions
+        },
+      }
+    },
   ],
 
   themeConfig:
@@ -124,15 +124,15 @@ const config = {
       metadata: [{ name: 'description', content: 'URDF Creator Documentation' }],
       navbar: {
         title: 'lever',
-        logo: {
-          alt: 'Logo',
-          src: 'img/robot_arm2.svg',
-          srcDark: 'img/robot_arm2_white.svg',
-        },
+        // logo: {
+        //   alt: 'Logo',
+        //   src: 'img/robot_arm2.svg',
+        //   srcDark: 'img/robot_arm2_white.svg',
+        // },
         items: [
-          {to: '/#about', label: 'About', position: 'right'},
-          {to: '/#contact', label: 'Contact', position: 'right'},
-          {to: '/#quote', label: 'Quote', position: 'right'},
+          { to: '/#about', label: 'About', position: 'right' },
+          { to: '/#contact', label: 'Contact', position: 'right' },
+          { to: '/#quote', label: 'Demo', position: 'right' },
         ],
       },
       colorMode: {
@@ -147,7 +147,7 @@ const config = {
             title: 'Email',
             items: [
               {
-                label: 'sales@lever-robotics.com',
+                label: 'mark.soulier@usu.edu',
                 to: '/#contact',
               },
             ],
